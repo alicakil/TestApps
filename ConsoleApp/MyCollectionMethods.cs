@@ -9,11 +9,15 @@ namespace ConsoleApp
 {
     internal class MyCollectionMethods
     {
-        public List<int> FindDublicatesInList(List<int> list)
+        public IList<int> FindDublicatesInList(IList<int> list)
         {
-            List<int> dublicates = list;//.GroupBy(x=>x.Key)
-            //foreach (var i in dublicates) Console.WriteLine(i);
-            return dublicates;
+            Console.WriteLine("Dublicated Items are");
+            var dublicates = list.GroupBy(x => x).SelectMany(grp=>grp.Skip(1)).Distinct();
+            foreach (var i in dublicates) Console.WriteLine(i);
+            return dublicates.ToList();
+
+            // or:
+            //return list.GroupBy(x => x).Where(g => g.Count() > 1).Select(g => g.Key).ToList();
         }
     }
 
@@ -23,7 +27,7 @@ namespace ConsoleApp
         [Key]
         public int id { get; set; }
         public string Name { get; set; } = "";
-        public int Category { get; set; }
+        public string Category { get; set; }
         public int UnitPrice { get; set; }
     }
 
